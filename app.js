@@ -3,17 +3,16 @@ var dweetClient = require('./node_modules/node-dweetio/');
 var schedule = require('./node_modules/node-schedule/');
 var shell = require('./node_modules/shelljs');
 
-try{
+var dweetio = new dweetClient();
+var dngl = require("dngl");
+var device = new dngl("/dev/ttyUSB2");
 
-	var dweetio = new dweetClient();
-	var dngl = require("dngl");
-	var device = new dngl("/dev/ttyUSB2");
+device.on("error", function(err){
 
-}catch(err | er){
+	shell.exec("reboot");
 
-	console.log("Error")
+});	
 
-}
 
 var datos
 var j = schedule.scheduleJob('*/30 * * * * *', function(){
