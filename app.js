@@ -23,9 +23,10 @@ var j = schedule.scheduleJob('*/30 * * * * *', function(){
 		test.on("error", function(err){
 			cont++;
 			var error = {"error":cont}
-        		dweetio.dweet_for("watchdog16", {some:error}, function(err, dwe$
+        		dweetio.dweet_for("watchdog16", {some:error}, function(err, dweet{});
 
 		});
+	});
 
 		test.on('data', function(data) {
 
