@@ -6,15 +6,21 @@ var shell = require('./node_modules/shelljs');
 var dweetio = new dweetClient();
 var dngl = require("dngl");
 var device = new dngl("/dev/ttyUSB2");
+var datos;
 
 device.on("error", function(err){
 
 	shell.exec("reboot");
 
-});	
+});
+
+test.on("error", function(err){
+
+	dweetio.dweet_for("watchdog16", {some:jsonConcat({"error":"yes"}},data)}, function(err, dweet){});
+
+});
 
 
-var datos
 var j = schedule.scheduleJob('*/30 * * * * *', function(){
 
 		shell.exec("route add default gw 10.64.64.64 ppp0")
