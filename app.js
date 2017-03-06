@@ -5,10 +5,19 @@ var schedule = require('./node_modules/node-schedule/');
 var shell = require('./node_modules/shelljs');
 
 var dngl = require("dngl");
-var device = new dngl("/dev/ttyUSB2");
+
+try{
+
+	var device = new dngl("/dev/ttyUSB2");
+
+}catch(err){
+
+		shell.exec("reboot")
+
+}
 var datos
 var j = schedule.scheduleJob('*/30 * * * * *', function(){
-		
+
 		shell.exec("route add default gw 10.64.64.64 ppp0")
 		test = speedTest.visual({maxTime: 5000});
 		test.on('data', function(data) {
