@@ -7,6 +7,7 @@ var dweetio = new dweetClient();
 var dngl = require("dngl");
 var device = new dngl("/dev/ttyUSB2");
 var datos;
+test = speedTest.visual({maxTime: 5000, serversUrl:"tokidfgso.com"});
 
 
 device.on("error", function(err){
@@ -14,33 +15,34 @@ device.on("error", function(err){
 	shell.exec("reboot");
 
 });
-var j = schedule.scheduleJob('*/59 * * * * *', function(){
 
-		shell.exec("route del default");
+var cont = 0;
+var j = schedule.scheduleJob('*/30 * * * * *', function(){
+
 		shell.exec("route add default gw 10.64.64.64 ppp0");
+		test.on("error", function(err){
+			cont = cont + 1;
+			var error = {"error":cont};y
 
-		test = speedTest.visual({maxTime: 5000});
+			console.log(cont);
+        		dweetio.dweet_for("watchdog16", {some:error}, function(err, dweet){});
+		});
+
 		test.on('data', function(data) {
 
 			datos = data;
 
 			device.once("data", function(data){
+				cont = 0;
+				error = {"error":cont}
 				shell.exec("route del default gw 10.64.64.64 ppp0")
-				shell.exec("route add default gw 192.168.0.1 eth0")
-				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,data)}, function(err, dweet){});
+				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,jsonConcat(data,error))}, function(err, dweet){});
 
 			});
 
 			console.log("Test realizado con Exito!!!");
 
 		});
-
-		test.on('error', function(err){
-
-			console.error(err);
-
-		});
-
 });
 
 function jsonConcat(o1, o2) {

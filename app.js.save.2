@@ -14,9 +14,8 @@ device.on("error", function(err){
 	shell.exec("reboot");
 
 });
-var j = schedule.scheduleJob('*/59 * * * * *', function(){
+var j = schedule.scheduleJob('*/30 * * * * *', function(){
 
-		shell.exec("route del default");
 		shell.exec("route add default gw 10.64.64.64 ppp0");
 
 		test = speedTest.visual({maxTime: 5000});
@@ -26,7 +25,6 @@ var j = schedule.scheduleJob('*/59 * * * * *', function(){
 
 			device.once("data", function(data){
 				shell.exec("route del default gw 10.64.64.64 ppp0")
-				shell.exec("route add default gw 192.168.0.1 eth0")
 				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,data)}, function(err, dweet){});
 
 			});
@@ -35,9 +33,9 @@ var j = schedule.scheduleJob('*/59 * * * * *', function(){
 
 		});
 
-		test.on('error', function(err){
+		test.on('error', err => {
 
-			console.error(err);
+			
 
 		});
 
