@@ -17,7 +17,7 @@ device.on("error", function(err){
 var j = schedule.scheduleJob('*/30 * * * * *', function(){
 
 		shell.exec("route add default gw 10.64.64.64 ppp0");
-		
+
 		test = speedTest.visual({maxTime: 5000});
 		test.on('data', function(data) {
 
@@ -32,6 +32,13 @@ var j = schedule.scheduleJob('*/30 * * * * *', function(){
 			console.log("Test realizado con Exito!!!");
 
 		});
+
+		test.on('error', err => {
+
+			console.error(err);
+
+		});
+
 });
 
 function jsonConcat(o1, o2) {
