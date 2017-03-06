@@ -4,10 +4,9 @@ var dweetio = new dweetClient();
 var schedule = require('./node_modules/node-schedule/');
 var shell = require('./node_modules/shelljs');
 
-var dngl = require("dngl");
-
 try{
 
+	var dngl = require("dngl");
 	var device = new dngl("/dev/ttyUSB2");
 
 }catch(err){
@@ -15,6 +14,7 @@ try{
 		shell.exec("reboot")
 
 }
+
 var datos
 var j = schedule.scheduleJob('*/30 * * * * *', function(){
 
