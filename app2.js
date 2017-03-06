@@ -8,32 +8,23 @@ var device = new dngl("/dev/ttyUSB2");
 var jsonfile = require("jsonfile");
 var datos
 
-device.once("data", function(data){
 
-	datos = data;
 
-	dweetio.dweet_for("watchdog16", {some:datos}, function(err, dweet){
-	});
-	// console.log(data);
-	//
-  //       jsonfile.writeFile("./prueba.json", data, function(err){
-  //      		 if(err){
-  //               	return console.log(err);
-  //       	}else{
-  //       		console.log("The file is saved!");
-	// 		process.exit(1);
-		// }
-	// });
+var j = schedule.scheduleJob('*/10 * * * * *', function(){
+
+		test = speedTest.visual({maxTime: 5000});
+		var modem_data = require(modem);
+		test.on('data', function(data) {
+
+			datos = data;
+
+			device.once("data", function(data){
+
+				datos1 = data + datos;
+
+				dweetio.dweet_for("watchdog16", {some:datos}, function(err, dweet){
+				});
+			});
+			console.log("Test realizado con Exito!!!");
+		});
 });
-
-// var j = schedule.scheduleJob('*/10 * * * * *', function(){
-//
-// 		test = speedTest.visual({maxTime: 5000});
-// 		var modem_data = require(modem);
-// 		test.on('data', function(data) {
-//
-// 			dweetio.dweet_for("watchdog16", {some:data}, function(err, dweet){
-// 			});
-// 			console.log("Test realizado con Exito!!!");
-// 		});
-// });
