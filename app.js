@@ -1,17 +1,17 @@
 var speedTest = require('./node_modules/speedtest-net/');
 var dweetClient = require('./node_modules/node-dweetio/');
-var dweetio = new dweetClient();
 var schedule = require('./node_modules/node-schedule/');
 var shell = require('./node_modules/shelljs');
 
 try{
 
+	var dweetio = new dweetClient();
 	var dngl = require("dngl");
 	var device = new dngl("/dev/ttyUSB2");
 
 }catch(err){
 
-		shell.exec("reboot")
+	console.log("Error")
 
 }
 
