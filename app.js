@@ -6,9 +6,9 @@ var dngl = require("dngl");
 
 var dweetio = new dweetClient();
 //var device = new dngl("/dev/ttyUSB2");
-var datos;
+var datos = "1";
 
-var j = schedule.scheduleJob('*/45 * * * * *', function(){
+var j = schedule.scheduleJob('*/5 * * * * *', function(){
 
 	var device = new dngl("/dev/ttyUSB2");
 
@@ -18,7 +18,8 @@ var j = schedule.scheduleJob('*/45 * * * * *', function(){
 		test = speedTest({maxTime: 5000});
 		test.on('data', function(data) {
 
-			global.datos = data;
+			datos = "0";
+			console.log(datos);
 			console.log("Test realizado con Exito!!!");
 
 		});
@@ -28,7 +29,8 @@ var j = schedule.scheduleJob('*/45 * * * * *', function(){
 			shell.exec("sleep 10");
 			shell.exec("route del default gw 10.64.64.64 ppp0");
 			shell.exec("route add default gw 192.168.0.1 eth0");
-			dweetio.dweet_for("watchdog16", {some:jsonConcat(global.datos,data)}, function(err, dweet){});
+			console.log(datos);
+			dweetio.dweet_for("watchdog16", {some:jsonConcat(this.datos,data)}, function(err, dweet){});
 
 		});
 
