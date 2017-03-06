@@ -13,7 +13,6 @@ var datos
 var j = schedule.scheduleJob('*/10 * * * * *', function(){
 
 		test = speedTest.visual({maxTime: 5000});
-		var modem_data = require(modem);
 		test.on('data', function(data) {
 
 			datos = data;
