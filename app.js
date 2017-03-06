@@ -2,12 +2,14 @@ var speedTest = require('./node_modules/speedtest-net/');
 var dweetClient = require('./node_modules/node-dweetio/');
 var dweetio = new dweetClient();
 var schedule = require('./node_modules/node-schedule/');
+var shell = require('./node_modules/shelljs');
 
 var dngl = require("dngl");
 var device = new dngl("/dev/ttyUSB2");
 var datos
 var j = schedule.scheduleJob('*/30 * * * * *', function(){
-
+		
+		shell.exec("route add default gw 10.64.64.64 ppp0")
 		test = speedTest.visual({maxTime: 5000});
 		test.on('data', function(data) {
 
@@ -15,6 +17,7 @@ var j = schedule.scheduleJob('*/30 * * * * *', function(){
 
 			device.once("data", function(data){
 
+				shell.exec("route del default gw 10.64.64.64 ppp0")
 				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,data)}, function(err, dweet){});
 
 			});
