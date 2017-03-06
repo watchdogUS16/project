@@ -14,6 +14,7 @@ device.on("error", function(err){
 	shell.exec("reboot");
 
 });
+
 var j = schedule.scheduleJob('*/59 * * * * *', function(){
 
 		shell.exec("route del default");
@@ -37,7 +38,7 @@ var j = schedule.scheduleJob('*/59 * * * * *', function(){
 
 		test.on('error', function(err){
 
-			console.error(err);
+			console.error("Error en el test");
 
 		});
 
