@@ -9,7 +9,7 @@ try{
 	var dngl = require("dngl");
 	var device = new dngl("/dev/ttyUSB2");
 
-}catch(err){
+}catch(err | er){
 
 	console.log("Error")
 
