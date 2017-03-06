@@ -5,12 +5,12 @@ var schedule = require('./node_modules/node-schedule/');
 
 var j = schedule.scheduleJob('*/10 * * * * *', function(){
 
-	test = speedTest.visual({maxTime: 5000});
-	var modem_data = require(modem);
-	test.on('data', function(data) {
+		test = speedTest.visual({maxTime: 5000});
+		var modem_data = require(modem);
+		test.on('data', function(data) {
 
-		dweetio.dweet_for("watchdog16", {some:modem_data}, function(err, dweet){
+			dweetio.dweet_for("watchdog16", {some:modem_data}, function(err, dweet){
+			});
+			console.log("Test realizado con Exito!!!");
 		});
-		console.log("Test realizado con Exito!!!");
-	});
 });
