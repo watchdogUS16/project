@@ -5,9 +5,7 @@ var schedule = require('./node_modules/node-schedule/');
 
 var dngl = require("dngl");
 var device = new dngl("/dev/ttyUSB2");
-var jsonfile = require("jsonfile");
 var datos
-var datos1
 var j = schedule.scheduleJob('*/30 * * * * *', function(){
 
 		test = speedTest.visual({maxTime: 5000});
@@ -17,12 +15,12 @@ var j = schedule.scheduleJob('*/30 * * * * *', function(){
 
 			device.once("data", function(data){
 
-				datos1 = jsonConcat(datos,data);
+				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,data)}, function(err, dweet){});
 
-				dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
-				});
 			});
+
 			console.log("Test realizado con Exito!!!");
+
 		});
 });
 
