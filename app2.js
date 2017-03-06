@@ -17,8 +17,7 @@ var j = schedule.scheduleJob('*/30 * * * * *', function(){
 
 			device.once("data", function(data){
 
-				datos1 = data
-				datos1 = datos1.concat(datos);
+				datos1 = jsonConcat(datos,data);
 
 				dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
 				});
@@ -26,3 +25,10 @@ var j = schedule.scheduleJob('*/30 * * * * *', function(){
 			console.log("Test realizado con Exito!!!");
 		});
 });
+
+function jsonConcat(o1, o2) {
+ for (var key in o2) {
+  o1[key] = o2[key];
+ }
+ return o1;
+}
