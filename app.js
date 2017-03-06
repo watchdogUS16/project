@@ -11,23 +11,25 @@ var datos;
 
 device.on("error", function(err){
 
-	shell.exec("reboot");
+	//shell.exec("reboot");
+	console.log("Error en device");
 
 });
 
-var j = schedule.scheduleJob('*/59 * * * * *', function(){
+var j = schedule.scheduleJob('*/45 * * * * *', function(){
 
-		shell.exec("route del default");
+		shell.exec("route del default gw 192.168.0.1 eth0");
 		shell.exec("route add default gw 10.64.64.64 ppp0");
 
-		test = speedTest.visual({maxTime: 5000});
+		test = speedTest({maxTime: 5000});
 		test.on('data', function(data) {
 
 			datos = data;
 
 			device.once("data", function(data){
-				shell.exec("route del default gw 10.64.64.64 ppp0")
-				shell.exec("route add default gw 192.168.0.1 eth0")
+
+				shell.exec("route del default gw 10.64.64.64 ppp0");
+				shell.exec("route add default gw 192.168.0.1 eth0");
 				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,data)}, function(err, dweet){});
 
 			});
@@ -38,7 +40,8 @@ var j = schedule.scheduleJob('*/59 * * * * *', function(){
 
 		test.on('error', function(err){
 
-			console.error("Error en el test");
+			//shell.exec("reboot");
+			console.log("Error en Test");
 
 		});
 
