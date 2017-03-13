@@ -1,6 +1,6 @@
 var speedTest = require('./node_modules/speedtest-net/');
 var dweetClient = require('./node_modules/node-dweetio/');
-var schedule = require('./node_modules/node-schedule/');
+//var schedule = require('./node_modules/node-schedule/');
 var shell = require('./node_modules/shelljs');
 var dngl = require("dngl");
 
