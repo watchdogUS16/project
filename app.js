@@ -18,7 +18,7 @@ var j = schedule.scheduleJob('*/45 * * * * *', function(){
 		test = speedTest({maxTime: 5000});
 		test.on('data', function(data) {
 
-			datos = data;
+			global.datos = data;
 			console.log("Test realizado con Exito!!!");
 
 		});
@@ -28,7 +28,7 @@ var j = schedule.scheduleJob('*/45 * * * * *', function(){
 			shell.exec("sleep 10");
 			shell.exec("route del default gw 10.64.64.64 ppp0");
 			shell.exec("route add default gw 192.168.0.1 eth0");
-			dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,data)}, function(err, dweet){});
+			dweetio.dweet_for("watchdog16", {some:jsonConcat(global.datos,data)}, function(err, dweet){});
 
 		});
 
