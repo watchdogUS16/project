@@ -8,7 +8,7 @@ var dweetio = new dweetClient();
 var device = new dngl("/dev/ttyUSB2");
 var datos;
 
-var j = schedule.scheduleJob('*/20 * * * * *', function(){
+//var j = schedule.scheduleJob('* * * * * *', function(){
 
 		//shell.exec("route del default gw 192.168.0.1 eth0");
 		shell.exec("route add default gw 10.64.64.64 ppp0");
@@ -20,13 +20,12 @@ var j = schedule.scheduleJob('*/20 * * * * *', function(){
 
 			device.once('data', function(data){
 
-				//shell.exec("sleep 10");
 				shell.exec("route del default gw 10.64.64.64 ppp0");
-				//shell.exec("route add default gw 192.168.0.1 eth0");
 				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,data)}, function(err, dweet){});
 
 			});
-			console.log("Test realizado con Exito!!!");
+
+			console.log("-------------------------------------------------------Test realizado con Exito!!!");
 
 		});
 
@@ -48,7 +47,7 @@ var j = schedule.scheduleJob('*/20 * * * * *', function(){
 
 
 
-});
+//});
 
 function jsonConcat(o1, o2) {
  for (var key in o2) {
