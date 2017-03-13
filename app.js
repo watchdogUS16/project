@@ -4,11 +4,11 @@ var schedule = require('./node_modules/node-schedule/');
 var shell = require('./node_modules/shelljs');
 var dngl = require("dngl");
 
-var j = schedule.scheduleJob('*/5 * * * * *', function(){
-
 var dweetio = new dweetClient();
 var device = new dngl("/dev/ttyUSB2");
 var datos;
+
+var j = schedule.scheduleJob('*/5 * * * * *', function(){
 
 		shell.exec("route del default gw 192.168.0.1 eth0");
 		shell.exec("route add default gw 10.64.64.64 ppp0");
