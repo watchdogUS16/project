@@ -13,19 +13,24 @@ var datos;
 		//shell.exec("route del default gw 192.168.0.1 eth0");
 		shell.exec("route add default gw 10.64.64.64 ppp0");
 
-		test = speedTest({maxTime: 5000});
-		test.on('data', function(data) {
+		test = speedTest.visual({maxTime: 5000});
+		test.once('data', function(data) {
 
 			datos = data;
 
 			device.once('data', function(data){
 
 				shell.exec("route del default gw 10.64.64.64 ppp0");
-				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,data)}, function(err, dweet){});
-
+				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,data)}, function(err, dweet){
+	
+				if(!err){
+					
+					console.log("Test Realizado");
+					shell.exec("killall node");	
+				
+					}
+				});	
 			});
-
-			console.log("-------------------------------------------------------Test realizado con Exito!!!");
 
 		});
 
