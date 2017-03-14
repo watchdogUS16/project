@@ -13,7 +13,7 @@ var datos;
 		//shell.exec("route del default gw 192.168.0.1 eth0");
 		shell.exec("route add default gw 10.64.64.64 ppp0");
 
-		test = speedTest.visual({maxTime: 5000});
+		test = speedTest({maxTime: 5000});
 		test.once('data', function(data) {
 
 			datos = data;
