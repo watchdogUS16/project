@@ -8,6 +8,15 @@ var dweetio = new dweetClient();
 var device = new dngl("/dev/ttyUSB2");
 var datos;
 
+
+var SimpleNodeLogger = require('./node_modules/simple-node-logger'),
+	opts = {
+		logFilePath:'/home/project/app.log',
+		timestampFormat:'YYYY-MM-DD HH:mm:ss.SSS'
+	},
+	log = SimpleNodeLogger.createSimpleLogger( opts );
+
+
 //var j = schedule.scheduleJob('* * * * * *', function(){
 
 		shell.exec("sudo route add 10.64.64.64 ppp0");
@@ -30,7 +39,8 @@ var datos;
 					console.log("Test Realizado");
 					shell.exec("sleep 5")
 					shell.exec("killall node");	
-				
+					shell.exec("echo '#Test Realizado#' >> /home/project/log.txt");				
+
 				}else{
 
 					console.log("Datos no Enviados");
