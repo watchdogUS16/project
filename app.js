@@ -10,8 +10,8 @@ var datos;
 
 //var j = schedule.scheduleJob('* * * * * *', function(){
 
-		//shell.exec("route del default gw 192.168.0.1 eth0");
-		shell.exec("route add default gw 10.64.64.64 ppp0");
+		shell.exec("sudo route add 10.64.64.64 ppp0");
+		shell.exec("sudo route add default gw 10.64.64.64 ppp0");
 
 		test = speedTest({maxTime: 5000});
 		test.once('data', function(data) {
@@ -20,15 +20,24 @@ var datos;
 
 			device.once('data', function(data){
 
-				shell.exec("route del default gw 10.64.64.64 ppp0");
+				
+				shell.exec("sudo route del default gw 10.64.64.64 ppp0");
+				shell.exec("sudo route del 10.64.64.64")
 				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,data)}, function(err, dweet){
 	
 				if(!err){
 					
 					console.log("Test Realizado");
+					shell.exec("sleep 5")
 					shell.exec("killall node");	
 				
-					}
+				}else{
+
+					console.log("Datos no Enviados");
+					shell.exec("sleep 5");
+					shell.exec("sudo reboot");				
+
+				}
 				});	
 			});
 
@@ -37,16 +46,19 @@ var datos;
 
 
 		test.on('error', function(err){
-
-			//shell.exec("reboot");
+			
+			shell.exec("sleep 5")
+			shell.exec("sudo reboot");
 			console.log("Error en Test");
 
 		});
 
 		device.on("error", function(err){
 
-       			 //shell.exec("reboot");
-        		console.log("Error en device");
+       			console.log("Error en device");
+			shell.exec("sleep 5");
+			shell.exec("sudo reboot");
+        		//console.log("Error en device");
 
 		});
 
