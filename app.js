@@ -48,7 +48,7 @@ var datos;
 			console.log("Error en test");
 			shell.exec("sleep 5")
 			//shell.exec("sudo reboot");
-			envioError(datos);
+			envioError("Error_Test");
 
 		});
 
@@ -56,7 +56,7 @@ var datos;
 
       console.log("Error en device");
 			shell.exec("sleep 5");
-			envioError(datos)
+			envioError("Error_Device")
 			//shell.exec("sudo reboot");
       //console.log("Error en device");
 
