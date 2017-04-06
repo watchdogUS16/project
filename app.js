@@ -75,14 +75,14 @@ function jsonConcat(o1, o2) {
 
 function envioError(error){
 
-	datos = {"error":error};
+	datos = [{"error":error}];
 
 	dweetio.dweet_for("watchdog16", {some:datos}, function(err, dweet){
 
 	if(!err){
 
 		console.log("Error Reportado "+error);
-		shell.exec("sleep 5")
+		shell.exec("sleep 5");
 		shell.exec("killall node");
 
 	}else{
@@ -91,7 +91,6 @@ function envioError(error){
 		shell.exec("sleep 5");
 		shell.exec("killall node");
 
+		}
+		});
 	}
-
-
-}
