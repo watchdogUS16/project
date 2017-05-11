@@ -36,7 +36,7 @@ var datos;
 
 					console.log("Datos no Enviados");
 					shell.exec("sleep 5");
-					shell.exec("sudo reboot");
+					//shell.exec("sudo reboot");
 
 				}
 				});
@@ -94,8 +94,13 @@ function envioError(error){
 
 		console.log("Error No Reportado "+error);
 		shell.exec("sleep 5");
+<<<<<<< HEAD
 		shell.exec("killall node");
 		shell.exec("reboot")
+=======
+		//shell.exec("killall node");
+		shell.exec("sudo reboot");
+>>>>>>> e6815008c13266e4b79958a35ea88de4d9ad8514
 
 		}
 		});
