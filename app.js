@@ -15,13 +15,16 @@ var datos;
 		test.once('data', function(data) {
 
 			datos = data;
-
+			datos1 = jsonConcat({"error":[{"error":" "}]},datos);
+			var now = new Date();
+			var jsonDate = now.toJSON();
+			datos1 = jsonConcat({"actualDate":[{"date":jsonDate}]},datos1);
 			device.once('data', function(data){
 
 
 				shell.exec("sudo route del default gw 10.64.64.64 ppp0");
 				shell.exec("sudo route del 10.64.64.64")
-				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,data)}, function(err, dweet){
+				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos1,data)}, function(err, dweet){
 
 				if(!err){
 
@@ -75,13 +78,15 @@ function jsonConcat(o1, o2) {
 
 function envioError(error){
 
-	datos = [{"error":error}];
-
-	dweetio.dweet_for("watchdog16", {some:datos}, function(err, dweet){
+	datos = {"error":[{"error":error}]};
+	var now = new Date();
+        var jsonDate = now.toJSON();
+        datos1 = jsonConcat({"actualDate":[{"date":jsonDate}]},datos1);
+	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
 
 	if(!err){
 
-		console.log("Error Reportado "+error);
+		console.log(error+" Enviado");
 		shell.exec("sleep 5");
 		shell.exec("killall node");
 
@@ -90,6 +95,7 @@ function envioError(error){
 		console.log("Error No Reportado "+error);
 		shell.exec("sleep 5");
 		shell.exec("killall node");
+		shell.exec("reboot")
 
 		}
 		});

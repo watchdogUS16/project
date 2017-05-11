@@ -8,8 +8,6 @@ var dweetio = new dweetClient();
 var device = new dngl("/dev/ttyUSB2");
 var datos;
 
-//var j = schedule.scheduleJob('* * * * * *', function(){
-
 		shell.exec("sudo route add 10.64.64.64 ppp0");
 		shell.exec("sudo route add default gw 10.64.64.64 ppp0");
 
@@ -17,29 +15,28 @@ var datos;
 		test.once('data', function(data) {
 
 			datos = data;
-
+			datos1 = jsonConcat({"error":[{"error":" "}]},datos);
 			device.once('data', function(data){
 
-				
+
 				shell.exec("sudo route del default gw 10.64.64.64 ppp0");
 				shell.exec("sudo route del 10.64.64.64")
-				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos,data)}, function(err, dweet){
-	
+				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos1,data)}, function(err, dweet){
+
 				if(!err){
-					
+
 					console.log("Test Realizado");
 					shell.exec("sleep 5")
-					shell.exec("killall node");	
-					shell.exec("echo '#Test Realizado#' >> /home/project/log.txt");				
+					shell.exec("killall node");
 
 				}else{
 
 					console.log("Datos no Enviados");
 					shell.exec("sleep 5");
-					shell.exec("sudo reboot");				
+					shell.exec("sudo reboot");
 
 				}
-				});	
+				});
 			});
 
 		});
@@ -47,19 +44,21 @@ var datos;
 
 
 		test.on('error', function(err){
-			
+
+			console.log("Error en test");
 			shell.exec("sleep 5")
-			shell.exec("sudo reboot");
-			console.log("Error en Test");
+			//shell.exec("sudo reboot");
+			envioError("Error_Test");
 
 		});
 
 		device.on("error", function(err){
 
-       			console.log("Error en device");
+      console.log("Error en device");
 			shell.exec("sleep 5");
-			shell.exec("sudo reboot");
-        		//console.log("Error en device");
+			envioError("Error_Device")
+			//shell.exec("sudo reboot");
+      //console.log("Error en device");
 
 		});
 
@@ -73,3 +72,26 @@ function jsonConcat(o1, o2) {
  }
  return o1;
 }
+
+function envioError(error){
+
+	datos = {"error":[{"error":error}]};
+
+	dweetio.dweet_for("watchdog16", {some:datos}, function(err, dweet){
+
+	if(!err){
+
+		console.log(error+" Enviado");
+		shell.exec("sleep 5");
+		shell.exec("killall node");
+
+	}else{
+
+		console.log("Error No Reportado "+error);
+		shell.exec("sleep 5");
+		shell.exec("killall node");
+		shell.exec("reboot")
+
+		}
+		});
+	}
