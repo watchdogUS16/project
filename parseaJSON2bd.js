@@ -14,7 +14,8 @@ var ramF = shell.exec("egrep --color 'MemFree' /proc/meminfo | egrep '[0-9.]{4,}
 var cpu = shell.exec("top -d 0.5 -b -n2 | grep 'Cpu(s)'|tail -n 1 | awk '{print $2 + $4}'");
 var ps = shell.exec("ps -a");
 var codError = 0;
-db.query('CREATE TABLE IF NOT EXISTS test (idReport INTEGER PRIMARY KEY, fecha DATE, codError INTEGER, RBStatus TEXT, imsi INTEGER, imei INTEGER, downloadSpeed DOUBLE, uploadSpeed DOUBLE, operator INTEGER, mode INTEGER, time FLOAT, stat INTEGER, lac INTEGER, cell INTEGER, signal INTEGER)');
+var now = new Date();
+db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, currentDate DATE, codError INTEGER, RBStatus TEXT, imsi INTEGER, imei INTEGER, downloadSpeed DOUBLE, uploadSpeed DOUBLE, operator INTEGER, mode INTEGER, time FLOAT, stat INTEGER, lac INTEGER, cell INTEGER, signal INTEGER)');
 
 		shell.exec("sudo route add 10.64.64.64 ppp0");
 		shell.exec("sudo route add default gw 10.64.64.64 ppp0");
@@ -24,9 +25,8 @@ db.query('CREATE TABLE IF NOT EXISTS test (idReport INTEGER PRIMARY KEY, fecha D
 
 			datos = data;
 			datos1 = jsonConcat({"error":[{"error":" "}]},datos);
-			var now = new Date();
 			var jsonDate = now.toJSON();
-			datos1 = jsonConcat({"actualDate":[{"date":jsonDate}]},datos1);
+			//datos1 = jsonConcat({"actualDate":[{"date":jsonDate}]},datos1);
 			device.once('data', function(data){
 
 
@@ -37,13 +37,15 @@ db.query('CREATE TABLE IF NOT EXISTS test (idReport INTEGER PRIMARY KEY, fecha D
 				if(!err){
 
 					console.log("Test Realizado");
-					anadeaBD(jsonConcat(datos1,data),db);
+					insertBD(jsonConcat(datos1,data),db,codError);
 					shell.exec("sleep 5")
 					shell.exec("killall node");
 
 				}else{
 
 					console.log("Datos no Enviados");
+					codError = 1;
+					insertBD(null,db,codError);
 					shell.exec("sleep 5");
 					//shell.exec("sudo reboot");
 
@@ -58,7 +60,9 @@ db.query('CREATE TABLE IF NOT EXISTS test (idReport INTEGER PRIMARY KEY, fecha D
 		test.on('error', function(err){
 
 			console.log("Error en test");
-			shell.exec("sleep 5")
+			shell.exec("sleep 5");
+			codError = 2;
+			insertBD(jsonConcat(datos1,data),db,codError);
 			//shell.exec("sudo reboot");
 			envioError("Error_Test");
 
@@ -66,11 +70,13 @@ db.query('CREATE TABLE IF NOT EXISTS test (idReport INTEGER PRIMARY KEY, fecha D
 
 		device.on("error", function(err){
 
-      console.log("Error en device");
+      			console.log("Error en device");
 			shell.exec("sleep 5");
+			codError = 3;
+			insertBD(null,db,codError);
 			envioError("Error_Device")
 			//shell.exec("sudo reboot");
-      //console.log("Error en device");
+      			//console.log("Error en device");
 
 		});
 
@@ -78,10 +84,14 @@ db.query('CREATE TABLE IF NOT EXISTS test (idReport INTEGER PRIMARY KEY, fecha D
 
 //});
 
-function anadeaBD(json,db){
-//	idReport INTEGER PRIMARY KEY, fecha DATE, codError INTEGER, RBStatus TEXT, imsi INTEGER, imei INTEGER, downloadSpeed DOUBLE, uploadSpeed DOUBLE, operator INTEGER, mode INTEGER, time FLOAT, stat INTEGER, lac INTEGER, cell INTEGER, signal INTEGER
-	db.query('INSERT INTO test VALUES(null,?,?,?,?,?,?)', [null,codError,concat(temp,ramT,ramF,cpu,ps), json.imsi, json.imei, json.speeds.download, json.speeds.upload, json.service.operator, json.service.mode, json.time, json.cell.stat, json.cell.lac, json.cell.cell, json.signal]);
-	db.query('SELECT * FROM test');
+function insertBD(json, db, cod){
+	if(cod==0){	
+db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,cod,concat(temp,ramT,ramF,cpu,ps), json.imsi, json.imei, json.speeds.download, json.speeds.upload, json.service.operator, json.service.mode, json.time, json.cell.stat, json.cell.lac, json.cell.cell, json.signal]);
+}else{
+
+	db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,cod,concat(temp,ramT,ramF,cpu,ps),null,null,null,null,null,null,null,null,null,null,null,null]);
+
+}
 }
 
 function concat(o1,o2,o3,o4,o5){
@@ -111,7 +121,7 @@ function envioError(error){
 	datos = {"error":[{"error":error}]};
 	var now = new Date();
         var jsonDate = now.toJSON();
-        datos1 = jsonConcat({"actualDate":[{"date":jsonDate}]},datos1);
+        //datos1 = jsonConcat({"actualDate":[{"date":jsonDate}]},datos1);
 	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
 
 	if(!err){
