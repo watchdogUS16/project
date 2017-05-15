@@ -13,7 +13,8 @@ var ramT = shell.exec("egrep --color 'MemTotal' /proc/meminfo | egrep '[0-9.]{4,
 var ramF = shell.exec("egrep --color 'MemFree' /proc/meminfo | egrep '[0-9.]{4,}'");
 var cpu = shell.exec("top -d 0.5 -b -n2 | grep 'Cpu(s)'|tail -n 1 | awk '{print $2 + $4}'");
 var ps = shell.exec("ps -a");
-db.query('CREATE TABLE IF NOT EXISTS test (imsi INTEGER PRIMARY KEY, downloadSpeed DOUBLE, uploadSpeed DOUBLE, imei INTEGER, operator INTEGER, mode INTEGER, RBStatus TEXT)');
+var codError = 0;
+db.query('CREATE TABLE IF NOT EXISTS test (idReport INTEGER PRIMARY KEY, fecha DATE, codError INTEGER, RBStatus TEXT, imsi INTEGER, imei INTEGER, downloadSpeed DOUBLE, uploadSpeed DOUBLE, operator INTEGER, mode INTEGER, time FLOAT, stat INTEGER, lac INTEGER, cell INTEGER, signal INTEGER)');
 
 		shell.exec("sudo route add 10.64.64.64 ppp0");
 		shell.exec("sudo route add default gw 10.64.64.64 ppp0");
@@ -78,17 +79,16 @@ db.query('CREATE TABLE IF NOT EXISTS test (imsi INTEGER PRIMARY KEY, downloadSpe
 //});
 
 function anadeaBD(json,db){
-	db.query('INSERT INTO test VALUES(null,?,?,?,?,?,?)', [json.speeds.download, json.speeds.upload, json.imei, json.service.operator, json.service.mode,concat(temp,ramT,ramF,cpu,ps)]);
-//	console.log(concatena(temp,ramT,ramF,ramT-ramF,cpu,ps));
-//	db.query('INSERT INTO test VALUES(null, ?)', ['some text']);
+//	idReport INTEGER PRIMARY KEY, fecha DATE, codError INTEGER, RBStatus TEXT, imsi INTEGER, imei INTEGER, downloadSpeed DOUBLE, uploadSpeed DOUBLE, operator INTEGER, mode INTEGER, time FLOAT, stat INTEGER, lac INTEGER, cell INTEGER, signal INTEGER
+	db.query('INSERT INTO test VALUES(null,?,?,?,?,?,?)', [null,codError,concat(temp,ramT,ramF,cpu,ps), json.imsi, json.imei, json.speeds.download, json.speeds.upload, json.service.operator, json.service.mode, json.time, json.cell.stat, json.cell.lac, json.cell.cell, json.signal]);
 	db.query('SELECT * FROM test');
 }
 
 function concat(o1,o2,o3,o4,o5){
-	
+
 	o4 = "CpuUsed: "+o4+"% ";
 	o5 = "Ps: "+o5;
-	
+
 	return (o1+o2+o3+o4+o5).replace(/\n/gi," ");
 
 }
@@ -101,8 +101,8 @@ function jsonConcat(o1, o2) {
 }
 
 function cut(temp,n,m){
-	
-return temp.substring(n,m);	
+
+return temp.substring(n,m);
 
 }
 
