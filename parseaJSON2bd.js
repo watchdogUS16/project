@@ -44,9 +44,10 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 				}else{
 
 					console.log("Datos no Enviados");
-					codError = 1;
+					codError = 4;
 					insertBD(null,db,codError);
 					shell.exec("sleep 5");
+					envioError(codError)
 					//shell.exec("sudo reboot");
 
 				}
@@ -131,10 +132,10 @@ function envioError(error){
 
 		console.log(error+" Enviado");
 		shell.exec("sleep 5");
-		shell.exec("killall node");
+		//shell.exec("killall node");
 		insertBD(null,db,error);
 
-	}else if(err){
+	}else{
 
 		console.log("Error No Reportado");
 		insertBD(null,db,4);
