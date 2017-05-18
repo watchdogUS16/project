@@ -123,25 +123,6 @@ function envioError(error){
 	var now = new Date();
   var jsonDate = now.toJSON();
 	datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos);
-	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
-	shell.exec("sudo route add default gw 192.168.0.1 eth0");
-
-	if(!err){
-
-		console.log(error+" Enviado");
-		shell.exec("sleep 5");
-		//shell.exec("killall node");
-		insertBD(null,db,error);
-
-	}else{
-
-		console.log("Error No Reportado");
-		insertBD(null,db,4);
-		shell.exec("sleep 5");
-		shell.exec("killall node");
-		//shell.exec("killall node");
-		//shell.exec("reboot");
-
-		}
-		});
+	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){});
+	
 	}
