@@ -119,15 +119,12 @@ return temp.substring(n,m);
 
 function envioError(error){
 
-	shell.exec("sudo route del default gw 10.64.64.64 ppp0");
-	shell.exec("sudo route del 10.64.64.64");
-	shell.exec("sleep 5");
-
 	datos = {"error":[{"error":error}]};
 	var now = new Date();
   var jsonDate = now.toJSON();
 	datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos);
 	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
+	shell.exec("sudo route add default gw 192.168.0.1 eth0");
 
 	if(!err){
 
