@@ -64,17 +64,17 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			codError = 2;
 			insertBD(null,db,codError);
 			//shell.exec("sudo reboot");
-			envioError("Error_Test");
+			//envioError("Error_Test");
 
 		});
 
 		device.on("error", function(err){
 
-      			console.log("Error en device");
+      console.log("Error en device");
 			shell.exec("sleep 5");
 			codError = 3;
 			insertBD(null,db,codError);
-			envioError("Error_Device")
+			//envioError("Error_Device");
 			//shell.exec("sudo reboot");
       			//console.log("Error en device");
 
