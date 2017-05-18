@@ -31,7 +31,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 
 
 				shell.exec("sudo route del default gw 10.64.64.64 ppp0");
-				shell.exec("sudo route del 10.64.64.64")
+				shell.exec("sudo route del 10.64.64.64");
 				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos1,data)}, function(err, dweet){
 
 				if(!err){
@@ -64,7 +64,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			codError = 2;
 			insertBD(null,db,codError);
 			//shell.exec("sudo reboot");
-			//envioError("Error_Test");
+			envioError(codError);
 
 		});
 
@@ -74,7 +74,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			shell.exec("sleep 5");
 			codError = 3;
 			insertBD(null,db,codError);
-			//envioError("Error_Device");
+			envioError(codError);
 			//shell.exec("sudo reboot");
       			//console.log("Error en device");
 
@@ -129,13 +129,15 @@ function envioError(error){
 		console.log(error+" Enviado");
 		shell.exec("sleep 5");
 		shell.exec("killall node");
+		insertBD(null,db,error);
 
 	}else{
 
 		console.log("Error No Reportado "+error);
+		insertBD(null,db,4);
 		shell.exec("sleep 5");
 		//shell.exec("killall node");
-		//shell.exec("reboot")
+		shell.exec("reboot");
 
 		}
 		});
