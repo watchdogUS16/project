@@ -123,6 +123,11 @@ function envioError(error){
 	var now = new Date();
   var jsonDate = now.toJSON();
 	datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos);
-	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){});
+	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
+
+		shell.exec("sleep 5");
+		shell.exec("sudo killall node");
+
+	});
 	console.log("Datos error enviados");
 	}
