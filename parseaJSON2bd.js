@@ -47,7 +47,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 					codError = 4;
 					insertBD(null,db,codError);
 					shell.exec("sleep 5");
-					envioError(codError)
+					envioError(codError);
 					//shell.exec("sudo reboot");
 
 				}
@@ -77,7 +77,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			insertBD(null,db,codError);
 			envioError(codError);
 			//shell.exec("sudo reboot");
-      			//console.log("Error en device");
+      //console.log("Error en device");
 
 		});
 
@@ -119,13 +119,10 @@ return temp.substring(n,m);
 
 function envioError(error){
 
-	shell.exec("sudo route del 10.64.64.64 ppp0");
-	shell.exec("sudo route del default gw 10.64.64.64 ppp0");
-
 	datos = {"error":[{"error":error}]};
 	var now = new Date();
-        var jsonDate = now.toJSON();
-        var datos1 = {"currentDate":[{"date":jsonDate}]};
+  var jsonDate = now.toJSON();
+	datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos);
 	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
 
 	if(!err){
@@ -142,7 +139,6 @@ function envioError(error){
 		shell.exec("sleep 5");
 		//shell.exec("killall node");
 		//shell.exec("reboot");
-		console.log("reboot");
 
 		}
 		});
