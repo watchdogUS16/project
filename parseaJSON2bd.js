@@ -70,16 +70,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			codError = 3;
       console.log("Error en device");
 			shell.exec("sleep 5");
-			//envioError(codError);
-			insertBD(null,db,codError);
-			datos = {"error":[{"error":codError}]};
-			var now = new Date();
-		  var jsonDate = now.toJSON();
-			datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos);
-			dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
-			});
-			console.log("Datos error enviados");
-			shell.exec("sudo reboot");
+			envioError(codError);
 
 		});
 
@@ -106,17 +97,17 @@ return temp.substring(n,m);
 
 }
 
-// function envioError(error){
-//
-// 	insertBD(null,db,error);
-// 	datos = {"error":[{"error":error}]};
-// 	var now = new Date();
-//   var jsonDate = now.toJSON();
-// 	datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos);
-// 	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
-// 	});
-// 	console.log("Datos error enviados");
-// 	}
+function envioError(error){
+
+	insertBD(null,db,error);
+	datos = {"error":[{"error":error}]};
+	var now = new Date();
+  var jsonDate = now.toJSON();
+	datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos);
+	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
+	});
+	console.log("Datos error enviados");
+	}
 
 function insertBD(json, db, cod){
 		if(cod==0){
