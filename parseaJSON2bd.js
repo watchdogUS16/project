@@ -65,8 +65,6 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			//insertBD(null,db,codError);
 			//shell.exec("sudo reboot");
 			envioError(codError);
-			shell.exec("sudo sleep 5");
-			shell.exec("sudo reboot");
 
 		});
 
@@ -77,6 +75,8 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			codError = 3;
 			//insertBD(null,db,codError);
 			envioError(codError);
+			shell.exec("sudo sleep 5");
+			shell.exec("sudo reboot");
       //console.log("Error en device");
 
 		});
