@@ -126,7 +126,6 @@ function envioError(error){
 	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
 	});
 	console.log("Datos error enviados");
+	shell.exec("sleep 10");
+	shell.exec("sudo killall node");
 	}
-
-shell.exec("sleep 5");
-shell.exec("sudo killall node");
