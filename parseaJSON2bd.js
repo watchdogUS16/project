@@ -112,7 +112,7 @@ function envioError(error){
 
 function reboot(){
 
-	shell.exec("sudo sleep 5");
+	shell.exec("sudo sleep 20");
 	shell.exec("sudo reboot");
 
 }
