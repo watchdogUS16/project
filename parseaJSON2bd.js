@@ -24,11 +24,9 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 		test.once('data', function(data) {
 
 			datos = data;
-			datos1 = jsonConcat({"error":[{"error":" "}]},datos);
 			var jsonDate = now.toJSON();
-			//datos1 = jsonConcat({"actualDate":[{"date":jsonDate}]},datos1);
+			datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos1);
 			device.once('data', function(data){
-
 
 				shell.exec("sudo route del default gw 10.64.64.64 ppp0");
 				shell.exec("sudo route del 10.64.64.64")
@@ -62,7 +60,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			console.log("Error en test");
 			shell.exec("sleep 5");
 			codError = 2;
-			insertBD(jsonConcat(datos1,data),db,codError);
+			insertBD(null,db,codError);
 			//shell.exec("sudo reboot");
 			envioError("Error_Test");
 
@@ -70,7 +68,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 
 		device.on("error", function(err){
 
-      			console.log("Error en device");
+      console.log("Error en device");
 			shell.exec("sleep 5");
 			codError = 3;
 			insertBD(null,db,codError);
@@ -85,7 +83,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 //});
 
 function insertBD(json, db, cod){
-	if(cod==0){	
+	if(cod==0){
 db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,cod,concat(temp,ramT,ramF,cpu,ps), json.imsi, json.imei, json.speeds.download, json.speeds.upload, json.service.operator, json.service.mode, json.time, json.cell.stat, json.cell.lac, json.cell.cell, json.signal]);
 }else{
 
@@ -121,7 +119,7 @@ function envioError(error){
 	datos = {"error":[{"error":error}]};
 	var now = new Date();
         var jsonDate = now.toJSON();
-        //datos1 = jsonConcat({"actualDate":[{"date":jsonDate}]},datos1);
+        datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos1);
 	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
 
 	if(!err){
