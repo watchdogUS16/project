@@ -62,8 +62,6 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			console.log("Error en test");
 			shell.exec("sleep 5");
 			codError = 2;
-			//insertBD(null,db,codError);
-			//shell.exec("sudo reboot");
 			envioError(codError);
 
 		});
@@ -73,12 +71,8 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
       console.log("Error en device");
 			shell.exec("sleep 5");
 			codError = 3;
-			//insertBD(null,db,codError);
 			envioError(codError);
-			shell.exec("sudo sleep 5");
-			shell.exec("sudo reboot");
-      //console.log("Error en device");
-
+			reboot();
 		});
 
 
@@ -115,6 +109,13 @@ function envioError(error){
 	});
 	console.log("Datos error enviados");
 	}
+
+function reboot(){
+
+	shell.exec("sudo sleep 5");
+	shell.exec("sudo reboot");
+
+}
 
 function insertBD(json, db, cod){
 		if(cod==0){
