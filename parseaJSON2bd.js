@@ -71,13 +71,18 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 
 		device.on("error", function(err){
 
+			if(err){
       console.log("Error en device");
 			shell.exec("sleep 5");
 			codError = 3;
 			//insertBD(null,db,codError);
 			envioError(codError);
       //console.log("Error en device");
+		}else{
 
+			console.log("error en device now");
+
+		}
 		});
 
 
