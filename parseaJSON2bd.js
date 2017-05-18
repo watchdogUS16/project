@@ -71,7 +71,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
       console.log("Error en device");
 			shell.exec("sleep 5");
 			//envioError(codError);
-			insertBD(null,db,error);
+			insertBD(null,db,codError);
 			datos = {"error":[{"error":codError}]};
 			var now = new Date();
 		  var jsonDate = now.toJSON();
