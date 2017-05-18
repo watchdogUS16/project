@@ -135,7 +135,7 @@ function envioError(error){
 		console.log("Error No Reportado "+error);
 		shell.exec("sleep 5");
 		//shell.exec("killall node");
-		shell.exec("reboot")
+		//shell.exec("reboot")
 
 		}
 		});
