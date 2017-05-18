@@ -55,8 +55,6 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 
 		});
 
-
-
 		test.on('error', function(err){
 
 			console.log("Error en test");
@@ -98,7 +96,7 @@ return temp.substring(n,m);
 }
 
 function envioError(error){
-
+	var ex = 1;
 	insertBD(null,db,error);
 	datos = {"error":[{"error":error}]};
 	var now = new Date();
@@ -107,6 +105,13 @@ function envioError(error){
 	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
 	});
 	console.log("Datos error enviados");
+
+	if(ex==1){
+
+		shell.exec("sudo reboot");
+
+	}
+
 	}
 
 function insertBD(json, db, cod){
