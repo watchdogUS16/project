@@ -29,7 +29,6 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos1);
 			device.once('data', function(data){
 
-
 				shell.exec("sudo route del default gw 10.64.64.64 ppp0");
 				shell.exec("sudo route del 10.64.64.64");
 				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos1,data)}, function(err, dweet){
@@ -66,28 +65,21 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			//insertBD(null,db,codError);
 			//shell.exec("sudo reboot");
 			envioError(codError);
+			shell.exec("sudo sleep 5");
+			shell.exec("sudo reboot");
 
 		});
 
 		device.on("error", function(err){
 
-			if(err){
       console.log("Error en device");
 			shell.exec("sleep 5");
 			codError = 3;
 			//insertBD(null,db,codError);
 			envioError(codError);
       //console.log("Error en device");
-		}else{
 
-			console.log("error en device now");
-
-		}
 		});
-
-
-
-//});
 
 
 function concat(o1,o2,o3,o4,o5){
