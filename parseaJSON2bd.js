@@ -4,7 +4,7 @@ var shell = require('./node_modules/shelljs');
 var dngl = require("dngl");
 var dblite = require('./node_modules/dblite'),
 
-db = dblite('./dbReports.sqlite');
+db = dblite('/home/project/dbReports.sqlite');
 var dweetio = new dweetClient();
 var device = new dngl("/dev/ttyUSB2");
 var datos;
