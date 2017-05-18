@@ -24,9 +24,11 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 		test.once('data', function(data) {
 
 			datos = data;
+			datos1 = jsonConcat({"error":[{"error":" "}]},datos);
 			var jsonDate = now.toJSON();
 			datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos1);
 			device.once('data', function(data){
+
 
 				shell.exec("sudo route del default gw 10.64.64.64 ppp0");
 				shell.exec("sudo route del 10.64.64.64")
@@ -68,7 +70,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 
 		device.on("error", function(err){
 
-      console.log("Error en device");
+      			console.log("Error en device");
 			shell.exec("sleep 5");
 			codError = 3;
 			insertBD(null,db,codError);
