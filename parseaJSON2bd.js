@@ -85,15 +85,6 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 
 //});
 
-function insertBD(json, db, cod){
-	if(cod==0){
-db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,cod,concat(temp,ramT,ramF,cpu,ps), json.imsi, json.imei, json.speeds.download, json.speeds.upload, json.service.operator, json.service.mode, json.time, json.cell.stat, json.cell.lac, json.cell.cell, json.signal]);
-}else{
-
-	db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,cod,concat(temp,ramT,ramF,cpu,ps),null,null,null,null,null,null,null,null,null,null,null,null]);
-
-}
-}
 
 function concat(o1,o2,o3,o4,o5){
 
@@ -119,12 +110,22 @@ return temp.substring(n,m);
 
 function envioError(error){
 
+	insertBD(null,db,error);
 	datos = {"error":[{"error":error}]};
 	var now = new Date();
   var jsonDate = now.toJSON();
-	insertBD(null,db,codError);
 	datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos);
 	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
 	});
 	console.log("Datos error enviados");
+	}
+
+function insertBD(json, db, cod){
+		if(cod==0){
+	db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,cod,concat(temp,ramT,ramF,cpu,ps), json.imsi, json.imei, json.speeds.download, json.speeds.upload, json.service.operator, json.service.mode, json.time, json.cell.stat, json.cell.lac, json.cell.cell, json.signal]);
+	}else{
+
+		db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,cod,concat(temp,ramT,ramF,cpu,ps),null,null,null,null,null,null,null,null,null,null,null,null]);
+
+		}
 	}
