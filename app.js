@@ -7,7 +7,7 @@ var dngl = require("dngl");
 var dweetio = new dweetClient();
 var device = new dngl("/dev/ttyUSB2");
 var datos;
-
+var datos1;
 		shell.exec("sudo route add 10.64.64.64 ppp0");
 		shell.exec("sudo route add default gw 10.64.64.64 ppp0");
 
