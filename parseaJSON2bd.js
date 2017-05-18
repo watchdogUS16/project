@@ -76,8 +76,6 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			codError = 3;
 			//insertBD(null,db,codError);
 			envioError(codError);
-			shell.exec("sleep 3");
-			shell.exec("sudo killall node");
       //console.log("Error en device");
 
 		});
