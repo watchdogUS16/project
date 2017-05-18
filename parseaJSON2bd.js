@@ -121,6 +121,7 @@ function envioError(error){
 
 	shell.exec("sudo route del default gw 10.64.64.64 ppp0");
 	shell.exec("sudo route del 10.64.64.64");
+	shell.exec("sleep 5");
 
 	datos = {"error":[{"error":error}]};
 	var now = new Date();
