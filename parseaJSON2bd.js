@@ -72,7 +72,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			shell.exec("sleep 5");
 			//envioError(codError);
 			insertBD(null,db,error);
-			datos = {"error":[{"error":error}]};
+			datos = {"error":[{"error":codError}]};
 			var now = new Date();
 		  var jsonDate = now.toJSON();
 			datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos);
