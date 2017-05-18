@@ -44,7 +44,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 				}else{
 
 					console.log("Datos no Enviados");
-					codError = 4;
+					codError = 1;
 					insertBD(null,db,codError);
 					shell.exec("sleep 5");
 					envioError(codError);
@@ -118,6 +118,9 @@ return temp.substring(n,m);
 }
 
 function envioError(error){
+
+	shell.exec("sudo route del default gw 10.64.64.64 ppp0");
+	shell.exec("sudo route del 10.64.64.64");
 
 	datos = {"error":[{"error":error}]};
 	var now = new Date();
