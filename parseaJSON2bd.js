@@ -134,7 +134,7 @@ function envioError(error){
 		shell.exec("killall node");
 		insertBD(null,db,error);
 
-	}else{
+	}else if(err){
 
 		console.log("Error No Reportado");
 		insertBD(null,db,4);
