@@ -136,11 +136,12 @@ function envioError(error){
 
 	}else{
 
-		console.log("Error No Reportado "+error);
+		console.log("Error No Reportado");
 		insertBD(null,db,4);
 		shell.exec("sleep 5");
 		//shell.exec("killall node");
-		shell.exec("reboot");
+		//shell.exec("reboot");
+		console.log("reboot");
 
 		}
 		});
