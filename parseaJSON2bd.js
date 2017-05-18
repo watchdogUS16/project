@@ -63,7 +63,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			console.log("Error en test");
 			shell.exec("sleep 5");
 			codError = 2;
-			insertBD(null,db,codError);
+			//insertBD(null,db,codError);
 			//shell.exec("sudo reboot");
 			envioError(codError);
 
@@ -74,7 +74,7 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
       console.log("Error en device");
 			shell.exec("sleep 5");
 			codError = 3;
-			insertBD(null,db,codError);
+			//insertBD(null,db,codError);
 			envioError(codError);
 			//shell.exec("sudo reboot");
       //console.log("Error en device");
@@ -141,6 +141,7 @@ function envioError(error){
 		console.log("Error No Reportado");
 		insertBD(null,db,4);
 		shell.exec("sleep 5");
+		shell.exec("killall node");
 		//shell.exec("killall node");
 		//shell.exec("reboot");
 
