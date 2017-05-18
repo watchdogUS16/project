@@ -68,8 +68,6 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 
 		device.on("error", function(err){
 			codError = 3;
-			insertBD(null,db,codError);
-			shell.exec("sudo reboot");
       console.log("Error en device");
 			shell.exec("sleep 5");
 			envioError(codError);
