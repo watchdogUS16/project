@@ -70,7 +70,16 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			codError = 3;
       console.log("Error en device");
 			shell.exec("sleep 5");
-			envioError(codError);
+			//envioError(codError);
+			insertBD(null,db,error);
+			datos = {"error":[{"error":error}]};
+			var now = new Date();
+		  var jsonDate = now.toJSON();
+			datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos);
+			dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
+			});
+			console.log("Datos error enviados");
+			shell.exec("sudo reboot");
 
 		});
 
@@ -97,24 +106,26 @@ return temp.substring(n,m);
 
 }
 
-function envioError(error){
-
-	insertBD(null,db,error);
-	datos = {"error":[{"error":error}]};
-	var now = new Date();
-  var jsonDate = now.toJSON();
-	datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos);
-	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
-	});
-	console.log("Datos error enviados");
-	}
+// function envioError(error){
+//
+// 	insertBD(null,db,error);
+// 	datos = {"error":[{"error":error}]};
+// 	var now = new Date();
+//   var jsonDate = now.toJSON();
+// 	datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos);
+// 	dweetio.dweet_for("watchdog16", {some:datos1}, function(err, dweet){
+// 	});
+// 	console.log("Datos error enviados");
+// 	}
 
 function insertBD(json, db, cod){
 		if(cod==0){
-	db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,cod,concat(temp,ramT,ramF,cpu,ps), json.imsi, json.imei, json.speeds.download, json.speeds.upload, json.service.operator, json.service.mode, json.time, json.cell.stat, json.cell.lac, json.cell.cell, json.signal]);
+
+			db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,cod,concat(temp,ramT,ramF,cpu,ps), json.imsi, json.imei, json.speeds.download, json.speeds.upload, json.service.operator, json.service.mode, json.time, json.cell.stat, json.cell.lac, json.cell.cell, json.signal]);
+
 	}else{
 
-		db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,cod,concat(temp,ramT,ramF,cpu,ps),null,null,null,null,null,null,null,null,null,null,null,null]);
+			db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,cod,concat(temp,ramT,ramF,cpu,ps),null,null,null,null,null,null,null,null,null,null,null,null]);
 
 		}
 	}
