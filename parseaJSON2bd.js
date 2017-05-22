@@ -2,7 +2,7 @@ var speedTest = require('./node_modules/speedtest-net/');
 var dweetClient = require('./node_modules/node-dweetio/');
 var shell = require('./node_modules/shelljs');
 var dngl = require("dngl");
-var dblite = require('./node_modules/dblite'),
+var dblite = require('./node_modules/dblite');
 
 db = dblite('/home/project/dbReports.sqlite');
 var dweetio = new dweetClient();
@@ -130,7 +130,7 @@ function codreboot(db){
 
 	 	var record = rows[rows.length-1];
 			console.log(record);
-			if(record.value2==3){
+			if(record.value2==3 or !record.value2){
 
 			db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,-1,concat(temp,ramT,ramF,cpu,ps),null,null,null,null,null,null,null,null,null,null,null,null]);
 			console.log("Reboot");
