@@ -19,14 +19,14 @@ var ps = shell.exec("ps -a");
 for(var i=rows.length-1; i>=rows.length-3; i--){
  	var record = rows[i];
 	if(record.value2>0){
-	
+
 		cont++;
-	
+
 	}
 }
 	if(cont>2){
 
-		db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,-1,concat(temp,ramT,ramF,cpu,ps),null,null,null,null,null,null,null,null,null,null,null,null]);
+		//db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,-1,concat(temp,ramT,ramF,cpu,ps),null,null,null,null,null,null,null,null,null,null,null,null]);
 		//console.log("Hubo mas de 3 errores");
 		shell.exec("sleep 5");
 		shell.exec("sudo reboot");
@@ -46,4 +46,4 @@ function concat(o1,o2,o3,o4,o5){
 
 	return (o1+o2+o3+o4+o5).replace(/\n/gi," ");
 
-}	
+}

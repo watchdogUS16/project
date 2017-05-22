@@ -129,7 +129,7 @@ function codreboot(db){
 	}, function (err, rows) {
 
 	 	var record = rows[rows.length-1];
-			console.log(record);
+			//console.log(record);
 			if(record.value2==3){
 
 			db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,-1,concat(temp,ramT,ramF,cpu,ps),null,null,null,null,null,null,null,null,null,null,null,null]);
