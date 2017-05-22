@@ -35,6 +35,8 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 
 				if(!err){
 
+					codreboot(db);
+
 					console.log("Test Realizado");
 					insertBD(jsonConcat(datos1,data),db,codError);
 					shell.exec("sleep 5")
@@ -96,7 +98,7 @@ return temp.substring(n,m);
 }
 
 function envioError(error){
-	
+
 	insertBD(null,db,error);
 	datos = {"error":[{"error":error}]};
 	var now = new Date();
@@ -119,3 +121,23 @@ function insertBD(json, db, cod){
 
 		}
 	}
+
+function codreboot(db){
+
+	db.query('SELECT * FROM Report', {
+	  idReport: Number,
+	  value: JSON.parse, // value unserialized
+	  value2: JSON.parse
+	}, function (err, rows) {
+
+	 	var record = rows[rows.length-1];
+
+			if(record.value2==3){
+
+			console.log("Reboot");	
+			shell.exec("sleep 5");
+			shell.exec("sudo reboot");
+
+		}
+	})
+}
