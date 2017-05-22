@@ -1,0 +1,45 @@
+{
+  "name": "wachtdog",
+ "version": "1.0.0",
+ "description": "",
+ "main": "app.js",
+ "dependencies": {
+   "dblite": "^0.7.8",
+   "debug": "^2.6.1",
+   "dngl": "^0.0.4",
+   "fs": "0.0.1-security",
+   "gauge": "^2.7.3",
+   "inherits": "^2.0.3",
+   "isarray": "^2.0.1",
+   "JSON": "^1.0.0",
+   "jsonfile": "^2.4.0",
+   "modem": "^1.0.3",
+   "moment": "^2.17.1",
+   "node-dweetio": "^0.0.11",
+   "node-pre-gyp": "^0.6.34",
+   "node-schedule": "^1.2.0",
+   "sqlite3": "^3.1.8",
+   "pdu": "^1.1.0",
+   "semver": "^5.3.0",
+   "serialport": "^1.4.6",
+   "shelljs": "^0.7.6",
+   "shelljs": "^1.2.8",
+   "shelljs": "^0.7.6",
+
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/watchdogUS16/project.git"
+  },
+  "author": "Fco. Javier Fernández, Ángel Suárez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/watchdogUS16/project/issues"
+  },
+  "homepage": "https://github.com/watchdogUS16/project#readme"
+}
