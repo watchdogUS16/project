@@ -28,14 +28,12 @@ db.query('CREATE TABLE IF NOT EXISTS Report (idReport INTEGER PRIMARY KEY, curre
 			var jsonDate = now.toJSON();
 			datos1 = jsonConcat({"currentDate":[{"date":jsonDate}]},datos1);
 			device.once('data', function(data){
-
+				codreboot(db);
 				shell.exec("sudo route del default gw 10.64.64.64 ppp0");
 				shell.exec("sudo route del 10.64.64.64");
 				dweetio.dweet_for("watchdog16", {some:jsonConcat(datos1,data)}, function(err, dweet){
-
+				
 				if(!err){
-
-					codreboot(db);
 
 					console.log("Test Realizado");
 					insertBD(jsonConcat(datos1,data),db,codError);
@@ -123,7 +121,7 @@ function insertBD(json, db, cod){
 	}
 
 function codreboot(db){
-
+	
 	db.query('SELECT * FROM Report', {
 	  idReport: Number,
 	  value: JSON.parse, // value unserialized
@@ -131,9 +129,10 @@ function codreboot(db){
 	}, function (err, rows) {
 
 	 	var record = rows[rows.length-1];
-
+			console.log(record);
 			if(record.value2==3){
 
+			db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,-1,concat(temp,ramT,ramF,cpu,ps),null,null,null,null,null,null,null,null,null,null,null,null]);
 			console.log("Reboot");	
 			shell.exec("sleep 5");
 			shell.exec("sudo reboot");
