@@ -4,7 +4,7 @@ var shell = require('./node_modules/shelljs');
 
 db.query('SELECT * FROM Report', {
   idReport: Number,
-  value: JSON.parse, // value unserialized
+  value: JSON.parse,
   value2: JSON.parse
 }, function (err, rows) {
 
@@ -26,14 +26,13 @@ for(var i=rows.length-1; i>=rows.length-3; i--){
 }
 	if(cont>2){
 
-		//db.query('INSERT INTO Report VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [now,-1,concat(temp,ramT,ramF,cpu,ps),null,null,null,null,null,null,null,null,null,null,null,null]);
-		//console.log("Hubo mas de 3 errores");
 		shell.exec("sleep 5");
 		shell.exec("sudo reboot");
 
 	}else{
 
-		//console.log("OK");
+		console.log("OK");
+
 	}
 
 
